@@ -1,0 +1,59 @@
+1> Install package:
+    libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-doc gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa (gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5) gstreamer1.0-pulseaudio libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev
+
+2> Check version gstreamer:
+    gst-launch-1.0 --gst-version
+    or
+    apt-cache policy libgstreamer1.0-dev
+
+3> Building applications using GStreamer:
+    ex: gcc basic-tutorial-1.c -o basic-tutorial-1 `pkg-config --cflags --libs gstreamer-1.0`
+
+4> Example gst-rtsp-server:
+  +> Server:
+    ./test-launch "( filesrc location=test.flac ! flacparse ! flacdec ! audioconvert ! rtpL16pay name=pay0 )"
+  +> Client:
+    gst-launch-1.0 -v rtspsrc location=rtsp://192.168.1.101:8554/test ! decodebin ! audioconvert ! audioresample ! jackaudiosink
+
+>>>> Note: When run side client that was "ERROR: from element /GstPipeline:pipeline0/GstJackAudioSink:jackaudiosink0: Jack server not found"
+    then can machine no insall Jack server:
+    sudo apt-get install qjackctl pulseaudio-module-jack
+
+5> Getting pipeline graphs
+    Reference: https://developer.ridgerun.com/wiki/index.php/How_to_generate_a_Gstreamer_pipeline_diagram_%28graph%29    
+               https://embeddedartistry.com/blog/2018/02/22/generating-gstreamer-pipeline-graphs/
+
+6> State playback: NULL --> READY --> PAUSED --> PLAYING
+
+7> signal: https://www.freedesktop.org/software/gstreamer-sdk/data/docs/latest/gobject/gobject-Signals.html
+
+8> QT reference:
+    https://doc.qt.io/archives/qt-5.5/audiooverview.html
+    https://doc.qt.io/archives/qt-5.5/multimedia-examples.html
+    https://www.manpagez.com/html/gst-plugins-base-libs-1.0/gst-plugins-base-libs-1.0-1.14.0/
+    https://gstconf.ubicast.tv/videos/sat-21-oct-2017-082745-gmt/
+client: http://gstreamer-devel.966125.n4.nabble.com/Converting-a-gst-launch-pipeline-to-C-code-td973812.html
+        https://inneka.com/programming/cpp/gstreamer-convert-command-line-gst-launch-to-c-code-2/
+
+9> Mix:
+    https://fossies.org/linux/gst-plugins-base/tests/examples/audio/audiomix.c
+    https://stuff.mit.edu/afs/athena/astaff/source/src-9.3/third/gstreamer/examples/mixer/mixer.c
+
+10> Debug on gstreamer:
+    export GST_DEBUG="*:6"
+
+11> Server multi_chanel:
+    http://www.programmersought.com/article/7979238545/
+
+   
+error:
+checking for GST_PLUGINS_GOOD... no
+configure: No package 'gstreamer-plugins-good-1.0' found
+configure: no gstreamer-plugins-good-1.0 >= 1.8.0 (GStreamer Good Plugins) found
+Package gstreamer-plugins-good-1.0 was not found in the pkg-config search path.
+Perhaps you should add the directory containing `gstreamer-plugins-good-1.0.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'gstreamer-plugins-good-1.0' found
+configure: Using GStreamer Good Plugins in
+
+gstreamer1.0-doc
