@@ -1,0 +1,10 @@
+-> Go to install forder qt : Qt5.5.1/5.5/Src
+make clean;
+make distclean;
+./configure -gstreamer 1.0
+-> check log support gstream
+cd qtmultimedia
+qmake -r GST_VERSION=1.0
+-> check config.log for gstream and other error
+make
+make install
